@@ -387,11 +387,217 @@ void CreateInThread(ThreadTree T){
 }
 
 
+/*中序线索化二叉树找中序后继*/
+//找到以p为根的子树中，第一个被中序遍历的节点
+ThreadNode *Firstnode(ThreadNode *p){
+	//循环找到最左下节点(不一定是叶结点)
+	while(p->ltag==0) p=p->lchild;
+	return p;
+}
+
+//在中序线索二叉树中找到结点p的后继结点
+ThreadNode *Nextnode(ThreadNode *p){
+	//右子树中最左下结点
+	if(p->rtag==0) return Firstnode(p->rchild);
+	else return p->rchild; //rtag==1直接返回后继线索
+}
+
+//对中序线索二叉树进行中序遍历(利用线索实现的非递归算法)
+void Inorder(ThreadNode *T){
+	for(ThreadNode *p=Firstnode(T); p!=NULL; p=Nextnode(p))
+		visit(p);
+}
+
+
+/*中序线索二叉树找中序前驱*/
+//找到以P为根的子树中，最后一个被中序遍历的结点
+ThreadNode *Lastnode(ThreadNode *p){
+    //循环找到最右下结点(不一定是叶结点)
+    while(p->rtag==0) p=p->rchild;
+    return p; 
+} 
+
+//在中序线索二叉树中找到结点p的前驱结点
+ThreadNode *Prenode(TheradNode *p){
+    //左子树最右下结点
+    if(p->ltag==0) return Lastnode(p->lchild);
+    else return p->lchild; // ltag==1直接返回前驱线索 
+}
+
+//对中序线索二叉树进行逆向中序遍历
+void RevInorder(ThreadNode *T){
+    for(ThreadNode *p=Lastnode(T);p!=NULL; p=Prenode(p))
+        visit(p);
+} 
+
+
+/*双亲表示法(顺序结构)*/
+#define MAX_TREE_SIZE 100   //树中最多结点数
+typedef struct{             //树的结点定义 
+    ElemType data;          //数据元素
+    int parent; 
+}PTNode;
+
+typedef struct{                     //树的类型定义 
+    PTNode nodes[MAX_TREE_SIZE];    //双亲表示
+    int n;                          //结点数 
+}PTree;
+
+//删除结点
+typedef struct{                     //树的类型定义 
+    PTNode nodes[MAX_TREE_SIZE];    //双亲表示 
+    int n;                          //结点数 
+}PTree; 
+
+
+//孩子表示法(顺序+链式存储)
+struct CTNode{
+    int child; //孩子结点在数组中的位置
+    struct CTNode *next;    //下一个孩子 
+}; 
+typedef struct {
+    ElemType data;
+    struct CTNode *firstChild;  //第一个孩子 
+}CTBox;
+typedef struct{
+    CTBox nodes[MAX_TREE_SIZE];
+    int n, r;   //结点数和根的位置 
+}CTree;
+
+
+//孩子兄弟表示法(链式存储)
+typedef struct CSNode{
+    ElemType data;                              //数据域 
+    struct CSNode *firstchild, *nextsibling;    //第一个孩子(看做左指针)和右兄弟指针(看做右指针) 
+}CSNode, *CSTree; 
+
+
+/*树和森林的遍历*/
+//树的先根遍历
+void PreOrder(TreeNode *R){
+    if (R!=NULL){
+        visit(R);   //访问根节点
+        while(R)    //R还有下一个子树T 
+            PreOrder(T);    //先根遍历下一棵子树 
+    }
+} 
+
+
+//树的后根遍历
+void PostOrder(TreeNode *R){
+    if (R!=NULL){
+        while(R)    //R还有下一个子树T 
+            PreOrder(T);    //先根遍历下一棵子树 
+        visit(R);   //访问根节点
+    }
+} 
+
+
+
+/*二叉树*/
+//查找
+//二叉排序树结点
+typedef struct BSTNode{
+    int key;
+    struct BSTNode *lchild, *rchild;
+}BSTNode, *BSTree;
+
+//在二叉排序树中查找值为key的结点
+BSTNode *BST_Search(BSTree T, int key){
+    while(T!=NULL&&key!=T->key){        //若树空或等于根结点值，则结束循环 
+        if(key<T->key) T=T->lchild;     //小于，则在左子树上查找
+        else T=T->rchild;               //大于，则在右子树上查找 
+    }
+    return T;
+} 
+
+//在二叉排序树中查找值为key的结点(递归实现)
+BSTNode *BSTSearch(BSTree T, int key){
+    if (T==NULL)
+        return NULL;    //查找失败
+    if (key==T->key)
+        return T;       //查找成功
+    else if (key < T->key)
+        return BSTSearch(T->lchild, key);   //在左子树中找
+    else
+        return BSTSearch(T->rchild, key);   //在右子树中找
+} 
+
+//插入
+//在二叉排序树插入关键字为k的新结点(递归实现)~最坏空间复杂度O(h)
+int BST_Insert(BSTree &T, int k){
+    if(T==NULL){        //原树为空，新插入的结点为根结点
+        T=(BSTree)malloc(sizeof(BSTNode));
+        T->key=k;
+        T->lchild=T->rchild=NULL;
+        return 1;      //返回1，插入成功 
+    }
+    else if(k==T->key)  //树中存在相同关键字的结点，插入失败 
+        return 0;
+    else if(k<T->key)   //插入到T的左子树 
+        return BST_Insert(T->lchild, k);
+    else                //插入到T的右子树 
+        return BST_Insert(T->rchild, k); 
+} 
+
+//构造
+//按照str[]中的关键字序列建立二叉排序树
+void Create_BST(BSTree &T, int str[], int n){
+    T=NULL;         //初始时T为空树
+    int i=0;
+    while(i<n){     //依次将每个关键字插入到二叉排序树种
+        BST_Insert(T, str[i]);
+        i++; 
+    } 
+} 
+
+//平衡二叉树结点
+typedef struct AVLNode{
+    int key;        //数据域
+    int balance;    //平衡因子
+    struct AVLNode *lchild, *rchild; 
+}AVLNode, *AVLTree; 
+
+/*AVL插入调整平衡*/
+ 
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
 
 
 
