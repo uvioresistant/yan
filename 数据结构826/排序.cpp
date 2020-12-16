@@ -176,7 +176,15 @@ void MergeSort(int A[], int low, int high){
 	}
 }
 
+/*基数排序*/
+typedef struct LinkNode{
+	ElemType data;
+	struct LinkNode *next;
+}LinkNode, *LinkList;
 
+	LinkNode *front, *rear;	//队列的队头和队尾指针
+typedef struct{		//链式队列
+}LinkQueue;
 
 
 
