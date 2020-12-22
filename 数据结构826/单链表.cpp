@@ -371,8 +371,8 @@ bool InsertPriorNode (LNode *p, LNode *s){
     return true; 
 }
 
-
 /*
+
 按位序删除(带头结点) 
 */ 
 bool ListDelete(LinkList &L, int i, ElemType &e){
@@ -396,6 +396,8 @@ bool ListDelete(LinkList &L, int i, ElemType &e){
     return true;        //删除成功     
 }
 
+
+//指定结点的删除
 bool DeleteNode (LNode *p){
     if (p==NULL)
         return false;
