@@ -489,7 +489,7 @@ typedef struct DNode{       //定义双链表结点类型
 
 /*双链表的初始化(带头结点)*/
 //初始化双链表
-bool InitDLinkList(DLinklist, &L){
+bool InitDLinkList(DLinklist, &L){	// DLinklist等价于DNode *
     L = (DNode *)malloc(sizeof(DNode)); //分配一个头结点
     if (L==NULL)
         return false;
@@ -503,7 +503,64 @@ void testDLinkList(){
     //初始化双链表
     DLinklist L;
     INitDLinkList(L); 
+	// 后续代码
 }
+
+/*双链表的插入*/
+//在p结点之后插入s结点
+bool InsertNextNode(DNode *p, DNode *s){
+	if (p==NULL || s==NULL)	//非法参数
+		return false;
+	s->next=p->next;	// (1)s结点的next指针，指向与p结点的next指针相同的位置
+	if (p->next != NULL) //如果p结点有后继结点~如果p结点此时没有后继结点，就不用修改后继结点的前向指针
+		p->next->prior=s; // (2)修改后继结点的前向指针
+	s->prior=p;	// (3)s结点的前向指针，指向p结点
+	p->next=s;	// (4)第4步必须在(1)(2)之后，将p结点的后向指针，指向s结点
+	return true;
+}
+
+/*双链表的删除*/
+//删除p结点的后继结点
+bool DeleteNextDNode(DNode *p){
+	if (p==NULL)	return false;
+	DNode *q = p->next;	//找到p的后继结点q
+	if (q==NULL)	return false;	//p没有后继
+	p->next=q->next;	//p结点的next指针，指向与q结点的next指针相同的位置，p指向NULL
+	if (q->next!=NULL)
+		q->next->prior=p;	//尝试修改q结点后继结点的前向指针，但q结点的后继结点不存在，不满足，故跳过
+	free(q);			// 释放结点空间
+	return true;
+}
+
+//释放双链表
+void DestroyList(Dlinklist &L){
+	//循环释放各个数据结点
+	while (L->next != NULL) //用一个while循环，将结点从头结点开始删除，直到NULL
+		DeleteNextDNode(L);
+	free(L);	//释放头结点
+	L=NULL;		//头指针指向NULL
+}
+
+/*双链表的遍历*/
+//后向遍历
+while(p != NULL){
+	//对结点p做相应处理，如打印
+	p=p->next;
+}
+//前向遍历
+while(p != NULL){
+	//对结点p做相应处理，如打印
+	p=p->next;
+}
+//前向遍历(跳过头结点)
+while(p->prior != NULL){	//跳过头结点，只想对数据结点进行处理
+	//对结点p做相应处理，如打印
+	p=p->next;
+}
+
+
+
+
 
 //判断双链表是否为空(带头结点)
 bool Empty(DLinklist L){
