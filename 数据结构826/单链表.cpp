@@ -17,9 +17,9 @@ LNode*L; //声明一个指向单链表第一个结点的指针
 LinkList L; //声明一个指向单链表第一个结点的指针 --代码可读性更强
 */
 
-typedef struct LNode{
-    ElemType data;
-    struct LNode *next;
+typedef struct LNode{	//定义单链表结点类型
+    ElemType data;		//数据域
+    struct LNode *next;	//指针域
 }LNode, *LinkList;
 
 LNode *GetElem(LinkList L, int i){
@@ -43,10 +43,10 @@ LinkList List_HeadInsert(LinkList &L){ //逆向建立单链表
     L->next=NULL; //初始为空链表
     scanf("%d", &x); //输入结点的值
     while(x!=9999){  //输入9999表示结束 
-        s=(LNode*)malloc(sizeof(LNode)); //创建新结点
-        s->data=x;
-        s->next=L->next;
-        L->next=s;
+        s=(LNode*)malloc(sizeof(LNode)); //创建新结点，由系统生成一个LNode型的结点，同时将该结点的起始位置赋给指针变量s
+        s->data=x;	//~~~s的数据域指向x值
+        s->next=L->next;	//~~~s的next指针指向头结点的next指向的地方
+        L->next=s;	//将新结点插入表中，L为头指针~~~将头结点的next指针，指向s结点
         scanf("%d", &x); 
     } 
     
@@ -128,16 +128,15 @@ typedef struct LNode{
 
 
 /*
-按位查找 
+按位查找~即按序号查找结点值 
 */
-//按位查找，返回第i个元素(带头结点~第0个)
-LNode * GetElem(LinkList L, int i){
+LNode * GetElem(LinkList L, int i){ //按位查找，返回第i个元素(带头结点~第0个)
     if(i<0)
         return NULL;
     LNode *p;   //指针p指向当前扫描到的结点
     int j=0;    // 当前p指向的是第几个结点
     p = L;      // L指向头结点，头结点是第0个结点
-    while (p!=NULL && j<i){  //循环找到第i个结点
+    while (p!=NULL && j<i){  //循环找到第i个结点~ p不为空且j<i时
         p=p->next;
         j++; 
     } 
@@ -146,17 +145,17 @@ LNode * GetElem(LinkList L, int i){
 
 // 王道书中的按位查找
 LNode * GetElem(LinkList L, int i){
-    int j=1;
-    LNode *p=L->next;
+    int j=1;	//计数，初始为1
+    LNode *p=L->next;	//头结点指针赋给p
     if(i==0)
-        return L;
+        return L;	//若i等于0，则返回头结点
     if(i<1)
-        return NULL;
-    while(p!=NULL && j<i){
+        return NULL;	//若i无效，则返回NULL
+    while(p!=NULL && j<i){	//从第i个结点开始找，查找第i个结点
         p=p->next;
         j++;
     } 
-    return p;
+    return p;	//返回第i个结点的指针，若i大于表长则返回NULL
 } 
  
 
@@ -164,7 +163,7 @@ LNode * GetElem(LinkList L, int i){
 bool ListInsert(LinkList &L, int i, ElemType e){
     if(i<1)
         return false;
-    LNode *p = GetElem(L, i-1); //指针p指向当前扫描到的结点
+    LNode *p = GetElem(L, i-1); //1) 指针p指向当前扫描到的结点
     int j=0; // 当前p指向的是第几个结点
     p = L;  // L指向头结点，头结点是第0个节点(不存数据)
     while (p!=NULL && j<i-1){ //循环找到第i-1个结点
@@ -176,7 +175,7 @@ bool ListInsert(LinkList &L, int i, ElemType e){
         return InsertNextNode(p, e);  //p后面插入新元素e，尾插法 
     LNode *s = (LNode *)malloc(sizeof(LNode));
     s->data = e;
-    s->next = p->next;
+    s->next = p->next; //将s的next指针指向p的next指针所指的地方
     p->next = s;  //将结点s连到p之后
     return true; // 插入成功 
 } 
@@ -197,18 +196,17 @@ bool ListDelete(LinkList &L, int i, ElemType &e){
     if(p->next == NULL) // 第i-1个结点之后已无其他结点
         return false;
     LNode *q=p->next;   // 令q指向被删除结点
-    e = q->data;        // 用e返回元素的值
+    e = q->data;        // 用e返回元素的值~将p的数据域指向e
     p->next=q->next;    // 将*q结点从链中"断开"
-    free(q);            // 释放结点的存储空间
+    free(q);            // 释放结点q的存储空间
     return true;        // 删除成功 
 } 
 
 //按值查找，找到数据域==e的结点
 LNode * LocateElem(LinkList L, ElemType e){
-    LNode *p = L->next;
-    //从第1个结点开始查找数据域为e的结点
-    while (p!=NULL && p->data != e)
-        p = p->next;
+    LNode *p = L->next; //头结点指针赋给p
+    while (p!=NULL && p->data != e)	    //从第1个结点开始查找数据域为e的结点
+        p = p->next;	//如果数据域不符合，则p指针指向下一个数据
     return p;   //找到后返回该结点指针，否则返回NULL 
 } 
 
@@ -432,15 +430,16 @@ void test(){
     //....后续代码... 
 }
 
+/*尾插法建立单链表的算法*/
 LinkList List_TailInsert(LinkList &L){  //正向建立单链表 
-    int x;  //设ElemType为整型 
+    int x;  //设元素为整型 
     L=(LinkList)malloc(sizeof(LNode));  //建立头结点
-    LNode *s, *r=L; //r为表尾指针
+    LNode *s, *r=L; //r为表尾指针~~~添加一个尾结点~~~s为头指针
     scanf("%d", &x); //输入结点的值
     while(x!=9999){
-        s=(LNode *)malloc(sizeof(LNode));   //在r结点之后插入元素x 
-        s->data=x;
-        r->next=s;
+        s=(LNode *)malloc(sizeof(LNode));   //创建新结点，在r结点之后插入元素x 
+        s->data=x;	//~~~s的数据域指向x值
+        r->next=s;	//~~~r的next指针指向s值
         r=s;    //r指向新的表尾结点，永远保持r指向最后一个结点
         scanf("%d", &x); 
     }
