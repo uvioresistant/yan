@@ -433,13 +433,25 @@ int main()
 }
 
 
-
-
-
-
-
-
-
+/*2020.12,递归判断是否为二叉排序树*/
+int predt = -300;	//predt小于树中的任何值，predt始终记录着当前所访问结点的前驱的值
+int judBST(BTNode *bt)
+{
+	int b1, b2;
+	if (bt == NULL)	//空树是二叉排序树
+	{
+		return 1;
+	}
+	else
+	{
+		b1 = judBST(bt->lchild);	//递归地判断左子树是否是二叉排序树；
+		if(b1 == 0 || predt > bt->key)	//左子树不是二叉排序树/predt大于当前根结点值，则该树不是二叉排序树
+			return 0;
+		predt = bt->key;	//将要访问右子树根的时候，predt记录下当前结点根结点的值
+		b2 = judBST(bt->rchild);	//递归地判断右子树是否为二叉排序树
+		return b2;
+	}
+}
 
 
 
