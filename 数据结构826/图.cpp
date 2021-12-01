@@ -1,3 +1,13 @@
+/*图的邻接矩阵存储结构定义*/
+# define MaxVertexNum 100		//顶点数目的最大值
+typedef char VertexType;		//顶点的数据类型
+typedef int EdgeType;			//带权图中边上权值的数据类型
+typedef struct{
+	VertexType Vex[MaxVertexNum];	//顶点表
+	EdgeType Edge[MaxVertexNum][MaxVertexNum];	//邻接表矩阵，边表
+	int vexnum, arcnum;			//图的当前顶点数和弧数
+}MGraph;
+
 /*邻接矩阵法*/ 
 # define MaxVertexNum 100       //顶点数目的最大值 
 typedef struct{
@@ -99,6 +109,7 @@ void DFS(Graph G, int v){		//从顶点v出发，深度优先遍历图G
 }
 
 
+prim简单实现：
 
 
 
@@ -127,4 +138,5 @@ void DFS(Graph G, int v){		//从顶点v出发，深度优先遍历图G
 
 
 
- 
+
+
