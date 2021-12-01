@@ -1,3 +1,4 @@
+//1.顺序查找
 /*顺序表的顺序查找算法*/
 int SeqSearch1(int r[], int n, int k)
 {
@@ -21,7 +22,37 @@ int SeqSearch2(Node<int> *first, int k)
 		else return 0;
 }
 
-/*折半查找*/
+/*一般无序线性表的顺序查找*/
+typedef struct{			//查找表的数据结构
+	ElemType *elem;		// 元素存储空间基址，建表时按实际长度分配，0号单元留空
+	int TableLen;		// 表的长度
+}SSTable;
+
+int Search_Seq(SSTable ST, ElemType key){
+	ST.elem[0]=key;		// 哨兵
+	for(i=ST.TableLen;St.elem[i]!=key;--i);	//从后往前找
+	return i;			// 若表中不存在关键字为key的元素，将查找到i为0时退出for循环
+	
+}
+
+
+//2. 折半查找(二分查找)
+/*仅适用于有序的顺序表*/
+int Binary_Search(SeqList L, ElemType key){
+	int low=0, high=L.TableLen-1, mid;
+	while(low<=high){
+		mid=(low+high)/2;	// 取中间位置
+		if(L.elem[mid]==key)
+			return mid;		// 查找成功则返回所在位置
+		else if(L.elem[mid]>key)	// 中间值大于关键字，则为前部分
+			high=mid-1;		// 从前半部分继续查找
+		else
+			low=mid+1;		// 从后半部分继续查找
+	}
+	return -1;				// 查找失败，返回-1
+}
+
+
 //有序表{7, 14, 18, 21, 23, 29, 31, 35, 38, 42, 46, 49, 52}中
 //1)查找关键码为14的记录
 //1)查找关键码为22的记录
