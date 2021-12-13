@@ -1,8 +1,8 @@
-/*¶ş²æÊ÷µÄË³Ğò´æ´¢*/
+/*äºŒå‰æ ‘çš„é¡ºåºå­˜å‚¨*/
 # define MaxSize 100
 struct TreeNode{
-    ElemType value; //½áµãÖĞµÄÊı¾İÔªËØ
-    bool isEmpty;   //½áµãÊÇ·ñÎª¿Õ
+    ElemType value; //ç»“ç‚¹ä¸­çš„æ•°æ®å…ƒç´ 
+    bool isEmpty;   //ç»“ç‚¹æ˜¯å¦ä¸ºç©º
 };
 
 TreeNode t[MaxSize];
@@ -11,11 +11,11 @@ for (int i=0; i<MaxSize; i++){
     t[i].isEmpty=true;
 }
 
-/*¶ş²æÊ÷µÄÁ´Ê½´æ´¢*/
-//¶ş²æÊ÷µÄ½áµã(Á´Ê½´æ´¢)
+/*äºŒå‰æ ‘çš„é“¾å¼å­˜å‚¨*/
+//äºŒå‰æ ‘çš„ç»“ç‚¹(é“¾å¼å­˜å‚¨)
 typedef struct BiTNode{
-    ElemType data;                      // Êı¾İÓò
-    struct BiTNode *lchild, *rchild;    //×ó¡¢ÓÒº¢×ÓÖ¸Õë
+    ElemType data;                      // æ•°æ®åŸŸ
+    struct BiTNode *lchild, *rchild;    //å·¦ã€å³å­©å­æŒ‡é’ˆ
 }BiTNode *BiTree;
 
 
@@ -28,30 +28,30 @@ typedef struct BiTNode{
     struct BiTNode *lchild, *rchild;
 }BiTNode, *BiTree;
 
-//¶¨ÒåÒ»¿Ã¿ÕÊ÷
+//å®šä¹‰ä¸€æ£µç©ºæ ‘
 BiTree root = NULL;
 
-//²åÈë¸ù½áµã
+//æ’å…¥æ ¹ç»“ç‚¹
 root = (BiTree) malloc(sizeof(BiTNode));
 root->data = {1};
 root->lchild = NULL;
 root->rchild = NULL;
 
-//²åÈëĞÂ½Úµã
+//æ’å…¥æ–°èŠ‚ç‚¹
 BiTNode *p = (BiTNode *) malloc(sizeof(BiTNode));
 p->data = {2};
 p->lchild = NULL;
 p->rchild = NULL;
-root->lchild = p; //×÷Îª¸ù½áµãµÄ×óº¢×Ó
+root->lchild = p; //ä½œä¸ºæ ¹ç»“ç‚¹çš„å·¦å­©å­
 
-//Èı²æÁ´±í - ·½±ã²éÕÒ¸¸½áµã
+//ä¸‰å‰é“¾è¡¨ - æ–¹ä¾¿æŸ¥æ‰¾çˆ¶ç»“ç‚¹
 typedef struct BiTNode{
-    ElemType data;                      //Êı¾İÓò
-    struct BiTNode *lchild, *rchild;    //×ó¡¢ÓÒº¢×ÓÖ¸Õë
-    struct BiTNode *parent;             //¸¸½ÚµãÖ¸Õë
+    ElemType data;                      //æ•°æ®åŸŸ
+    struct BiTNode *lchild, *rchild;    //å·¦ã€å³å­©å­æŒ‡é’ˆ
+    struct BiTNode *parent;             //çˆ¶èŠ‚ç‚¹æŒ‡é’ˆ
 }BiTNode, *BiTree;
 
-//ÏÈĞò±éÀú
+//å…ˆåºéå†
 typedef struct BiTNode{
     ElemType data;
     struct BiTNode *lchild, *rchild;
@@ -66,12 +66,28 @@ void PreOrder(BiTree T){
         }
 }
 
-//ÖĞĞò±éÀú
+// å…ˆåºéå†éé€’å½’ç®—æ³•(ç‹é“)
+void PreOrder2(BiTree T){
+InitStack(S);   BiTree p=T;     //åˆå§‹åŒ–æ ˆSï¼›pæ˜¯éå†æŒ‡é’ˆ
+    while(p||!IsEmpty(S)){      //æ ˆä¸ç©ºæˆ–pä¸ç©ºæ—¶å¾ªç¯
+        if(p){                  //ä¸€è·¯å‘å·¦
+            visit(p); Push(S,p);    //è®¿é—®å½“å‰ç»“ç‚¹ï¼Œå¹¶å…¥æ ˆ
+            p=p->lchild;            //å·¦å­©å­ä¸ç©ºï¼Œä¸€ç›´å‘å·¦èµ°
+        }
+        else{
+            Pop(S, p);          //å‡ºæ ˆï¼Œå¹¶è½¬å‘å‡ºæ ˆç»“ç‚¹çš„å³å­æ ‘
+            p=p->rchild;        //å‘å³å­æ ‘èµ°ï¼Œpèµ‹å€¼ä¸ºå½“å‰ç»“ç‚¹çš„å³å­©å­
+        }                       //è¿”å›whileå¾ªç¯ï¼Œç»§ç»­è¿›å…¥if-elseè¯­å¥
+        
+    }
+}
+
+//ä¸­åºéå†
 typedef struct InOrder(BiTree T){
     if (T!=NULL){
-        InOrder(T->lchild);     //µİ¹é±éÀú×ó×ÓÊ÷
-        visit(T);               //·ÃÎÊ¸ù½áµã
-        InOrder(T->rchild);     //µİ¹é±éÀúÓÒ×ÓÊ÷
+        InOrder(T->lchild);     //é€’å½’éå†å·¦å­æ ‘
+        visit(T);               //è®¿é—®æ ¹ç»“ç‚¹
+        InOrder(T->rchild);     //é€’å½’éå†å³å­æ ‘
     }
 }
 
@@ -80,7 +96,22 @@ typedef struct BiTNode{
     struct BiTNode *lchild, *rchild;
 }BiTNode, *BiTree;
 
-//ºóĞò±éÀú
+// ä¸­åºéå†éé€’å½’ç®—æ³•(ç‹é“)
+void InOrder2(BiTree T){
+InitStack(S); BiTree p=T;       //åˆå§‹åŒ–æ ˆSï¼›pæ˜¯éå†æŒ‡é’ˆ
+    while(p||!IsEmpty(S)){      //æ ˆä¸ç©ºæˆ–pä¸ç©ºæ—¶å¾ªç¯
+        if(p){                  //ä¸€è·¯å‘å·¦
+            Push(S, p);         //å½“å‰èŠ‚ç‚¹å…¥æ ˆ
+            p=p->lchild;        //å·¦å­©å­ä¸ç©ºï¼Œä¸€ç›´å‘å·¦èµ°
+        }
+        else{                       //å‡ºæ ˆï¼Œå¹¶è½¬å‘å‡ºæ ˆç»“ç‚¹çš„å·¦å­æ ‘
+            Pop(S, p); visit(p);    //æ ˆé¡¶å…ƒç´ å‡ºæ ˆï¼Œè®¿é—®å‡ºæ ˆç»“ç‚¹
+            p=p->rchild;            //å‘å³å­æ ‘èµ°ï¼Œpèµ‹å€¼ä¸ºå½“å‰ç»“ç‚¹çš„å³å­©å­
+        }                           //è¿”å›whileå¾ªç¯ï¼Œç»§ç»­è¿›å…¥if-elseè¯­å¥
+    }
+}
+
+/* ååºéå† */
 typedef struct BiTNode{
     ElemType data;
     stuct BiTNode *lchild, *rchild;
@@ -95,13 +126,42 @@ typedef struct PostOrder(BiTree T){
     }
 }
 
-//·ÖÎöÏÈ/ÖĞ/ºóĞò±éÀúĞòÁĞ
+// ååºéå†éé€’å½’ç®—æ³•(ç‹é“)
+/* æ³¨ï¼šæ¯æ¬¡å‡ºæ ˆè®¿é—®å®Œä¸€ä¸ªç»“ç‚¹ï¼Œå°±ç›¸å½“äºéå†å®Œä»¥è¯¥ç»“ç‚¹ä¸ºæ ¹çš„å­æ ‘ï¼Œéœ€å°†pç½®NULL */
+void PostOrder(BiTree T){
+	InitStack(S);
+	p=T;
+	r=NULL;					//è¾…åŠ©æŒ‡é’ˆr
+	while(p||!IsEmpty(S)){
+		if(p){				//èµ°åˆ°æœ€å·¦è¾¹
+			push(S, p);
+			p=p->lchild;
+		}
+		else{				//å‘å³
+			GetTop(S, p);	//è¯»æ ˆé¡¶ç»“ç‚¹(éå‡ºæ ˆ)
+			if(p->rchild&&p->rchild!=r){	//è‹¥å³å­æ ‘å­˜åœ¨ï¼Œä¸”æœªè¢«è®¿é—®è¿‡
+				p=p->rchild;				//è½¬å‘å³
+				push(S, p);					//å‹å…¥æ ˆ
+				p=p->lchild;				//å†èµ°åˆ°æœ€å·¦
+			}
+			else{			//å¦åˆ™ï¼Œå¼¹å‡ºç»“ç‚¹å¹¶è®¿é—®
+				pop(S, p);					//å°†ç»“ç‚¹å¼¹å‡º
+				visit(p->data);				//è®¿é—®è¯¥ç»“ç‚¹
+				r=p;						//è®°å½•æœ€è¿‘è®¿é—®è¿‡çš„ç»“ç‚¹
+				p=NULL;						//ç»“ç‚¹è®¿é—®å®Œåï¼Œé‡ç½®pæŒ‡é’ˆ
+			}
+		}//else
+	}//while
+}
+
+
+//åˆ†æå…ˆ/ä¸­/ååºéå†åºåˆ—
 void visit(BiTNode *p){
     printf("%c", p->data)
 }
 
 
-//ÇóÊ÷µÄÉî¶È
+//æ±‚æ ‘çš„æ·±åº¦
 int treeDepth(BiTree T){
     if (T == NULL){
         return 0;
@@ -109,493 +169,513 @@ int treeDepth(BiTree T){
     else{
         int l = treeDepth(T->lchild);
         int r = treeDepth(T->rchild);
-        //Ê÷µÄÉî¶È=Max(×ó×ÓÊ÷Éî¶È£¬ÓÒ×ÓÊ÷Éî¶È)
+        //æ ‘çš„æ·±åº¦=Max(å·¦å­æ ‘æ·±åº¦ï¼Œå³å­æ ‘æ·±åº¦)
         return l>r ? l+1 : r+1;
     }
 }
 
 
-/*²ãĞò±éÀú*/
-//¶ş²æÊ÷µÄ½áµã(Á´Ê½´æ´¢)
+/*å±‚åº/å±‚æ¬¡éå†*/
+/* äºŒå‰æ ‘çš„å±‚æ¬¡éå†ç®—æ³•(ç‹é“) */
+void LevelOrder(BiTree T){
+    InitQueue(Q);               //åˆå§‹åŒ–è¾…åŠ©é˜Ÿåˆ—
+    BiTree p;
+    EnQueue(Q, T);              //å°†æ ¹ç»“ç‚¹å…¥é˜Ÿ
+    while(!IsEmpty(Q)){         //é˜Ÿåˆ—ä¸ç©ºåˆ™å¾ªç¯
+        DeQueue(Q, p)           //é˜Ÿå¤´ç»“ç‚¹å‡ºé˜Ÿ
+        visit(p);               //è®¿é—®å‡ºé˜Ÿç»“ç‚¹
+        if(p->lchild!=NULL)
+            EnQueue(Q,p->lchild);   //å·¦å­æ ‘ä¸ç©ºï¼Œåˆ™å·¦å­æ ‘æ ¹ç»“ç‚¹å…¥é˜Ÿ
+        if(p->rchild!=NULL)
+            EnQueue(Q,p->rchild);   //å³å­æ ‘ä¸ç©ºï¼Œåˆ™å³å­æ ‘æ ¹ç»“ç‚¹å…¥é˜Ÿ
+    }
+}
+
+//äºŒå‰æ ‘çš„ç»“ç‚¹(é“¾å¼å­˜å‚¨)
 typedef struct BiTNode{
     char data;
     struct BiTNode *lchild, rchild;
 }BiTNode, *BiTNode;
 
-//Á´Ê½¶ÓÁĞ½áµã
+//é“¾å¼é˜Ÿåˆ—ç»“ç‚¹
 typedef struct LinkNode{
     BiTNode *data;
     strct LinkNode *next;
 }LinkNode;
 
 typedef struct{
-    LinkNode *front, *rear; //¶ÓÍ·¶ÓÁĞ
+    LinkNode *front, *rear; //é˜Ÿå¤´é˜Ÿåˆ—
 }LinkQueue;
 
 void LevelOrder(BiTree T){
     LinkQueue Q;
-    InitQueue(Q);   //³õÊ¼»¯¸¨Öú¶ÓÁĞ
+    InitQueue(Q);   //åˆå§‹åŒ–è¾…åŠ©é˜Ÿåˆ—
     BiTree p;
-    EnQueue(Q, T);  //½«¸ù½áµãÈë¶Ó
-    while(!IsEmpty(Q)){ //¶ÓÁĞ²»¿ÕÔòÑ­»·
-        DeQueue(Q, p);  //¶ÔÍ·½áµã³öÍ·
-        visit(p);       //·ÃÎÊ³ö¶Ó½áµã
+    EnQueue(Q, T);  //å°†æ ¹ç»“ç‚¹å…¥é˜Ÿ
+    while(!IsEmpty(Q)){ //é˜Ÿåˆ—ä¸ç©ºåˆ™å¾ªç¯
+        DeQueue(Q, p);  //å¯¹å¤´ç»“ç‚¹å‡ºå¤´
+        visit(p);       //è®¿é—®å‡ºé˜Ÿç»“ç‚¹
         if(p->lchild!=NULL)
-            EnQueue(Q, p->lchild);//×óº¢×ÓÈë¶Ó
+            EnQueue(Q, p->lchild);//å·¦å­©å­å…¥é˜Ÿ
         if(p->rchild!=NULL)
-            EnQueue(Q, p->rchild);//ÓÒº¢×ÓÈë¶Ó
+            EnQueue(Q, p->rchild);//å³å­©å­å…¥é˜Ÿ
     }
 }
 
 
-/*ÏßË÷¶ş²æÊ÷µÄ´æ´¢½á¹¹*/
-//¶ş²æÊ÷µÄ½áµã(Á´Ê½´æ´¢)
+/*çº¿ç´¢äºŒå‰æ ‘çš„å­˜å‚¨ç»“æ„*/
+typedef struct ThreadNode{
+    ElemType data;          //æ•°æ®å…ƒç´ 
+    struct ThreadNode *lchild, *rchild; //å·¦ã€å³å­©å­æŒ‡é’ˆ
+    int ltag, rtag;         //å·¦ã€å³çº¿ç´¢æ ‡å¿—
+}ThreadNode, *ThreadTree;
+
+//äºŒå‰æ ‘çš„ç»“ç‚¹(é“¾å¼å­˜å‚¨)
 typedef struct BiTNode{
     ElemType data;
-    struct BiTNode *lchild, *rchild;    //ÊõÓï£º¶ş²æÁ´±í
+    struct BiTNode *lchild, *rchild;    //æœ¯è¯­ï¼šäºŒå‰é“¾è¡¨
 }BiTNode, *BiTree;
 
-//ÏßË÷¶ş²æÊ÷½áµã
+//çº¿ç´¢äºŒå‰æ ‘ç»“ç‚¹
 typedef struct THreadNode{
     ElemType data;
     struct ThreadNode *lchild, *rchild;
-    int ltag, rtag; //×ó¡¢ÓÒÏßË÷±êÖ¾, ÊõÓï£ºÏßË÷Á´±í
+    int ltag, rtag; //å·¦ã€å³çº¿ç´¢æ ‡å¿—, æœ¯è¯­ï¼šçº¿ç´¢é“¾è¡¨
 }ThreadNode, *THreadTree;
 
-/*ÓÃÍÁ°ì·¨ÕÒµ½ÖĞĞòÇ°Çı*/
-//ÖĞĞò±éÀú
+/*ç”¨åœŸåŠæ³•æ‰¾åˆ°ä¸­åºå‰é©±*/
+//ä¸­åºéå†
 void InOrder(BiTree T){
     if(T!=NULL){
-        InOrder(T->lchild);     //µİ¹é±éÀú×ó×ÓÊ÷
-        visit(T);               //·ÃÎÊ¸ù½áµã
-        InOrder(T->rchild);     //µİ¹é±éÀúÓÒ×ÓÊ÷
+        InOrder(T->lchild);     //é€’å½’éå†å·¦å­æ ‘
+        visit(T);               //è®¿é—®æ ¹ç»“ç‚¹
+        InOrder(T->rchild);     //é€’å½’éå†å³å­æ ‘
     }
 }
 
-//·ÃÎÊ½áµãq
+//è®¿é—®ç»“ç‚¹q
 void visit(BiTNode * q){
-    if(q==p)    //µ±Ç°·ÃÎÊ½áµã¸ÕºÃÊÇ½áµãp
-        final = pre;    //ÕÒµ½pµÄÇ°Çı
+    if(q==p)    //å½“å‰è®¿é—®ç»“ç‚¹åˆšå¥½æ˜¯ç»“ç‚¹p
+        final = pre;    //æ‰¾åˆ°pçš„å‰é©±
     else
-        pre = q;        //preÖ¸Ïòµ±Ç°·ÃÎÊµÄ½áµã
+        pre = q;        //preæŒ‡å‘å½“å‰è®¿é—®çš„ç»“ç‚¹
 }
 
-//¸¨ÖúÈ«¾Ö±äÁ¿£¬ÓÃÓÚ²éÕÒ½áµãpµÄÇ°Çı
-BiTNode *p;     //pÖ¸ÏòÄ¿±ê½áµã
-BiTNode *pre=NULL; //Ö¸Ïòµ±Ç°·ÃÎÊ½áµãµÄÇ°Çı
-BiTNode *final=NULL; //ÓÃÓÚ¼ÇÂ¼×îÖÕ½á¹û
+//è¾…åŠ©å…¨å±€å˜é‡ï¼Œç”¨äºæŸ¥æ‰¾ç»“ç‚¹pçš„å‰é©±
+BiTNode *p;     //pæŒ‡å‘ç›®æ ‡ç»“ç‚¹
+BiTNode *pre=NULL; //æŒ‡å‘å½“å‰è®¿é—®ç»“ç‚¹çš„å‰é©±
+BiTNode *final=NULL; //ç”¨äºè®°å½•æœ€ç»ˆç»“æœ
 
-/*ÖĞĞòÏßË÷»¯*/
-//È«¾Ö±äÁ¿ pre, Ö¸Ïòµ±Ç°·ÃÎÊ½áµãµÄÇ°Çı
+/*ä¸­åºçº¿ç´¢åŒ–*/
+//å…¨å±€å˜é‡ pre, æŒ‡å‘å½“å‰è®¿é—®ç»“ç‚¹çš„å‰é©±
 ThreadNode *pre=NULL;
 
-//ÖĞĞòÏßË÷»¯¶ş²æÊ÷T
+//ä¸­åºçº¿ç´¢åŒ–äºŒå‰æ ‘T
 void CreateInThread(ThreadTree T){
-    pre=NULL; //pre³õÊ¼»¯ÎªNULL
-    if(T!=NULL){        //·Ç¿Õ¶ş²æÊ÷²ÅÄÜÏßË÷»¯
-        InThread(T);    //ÖĞĞòÏßË÷»¯¶ş²æÊ÷
+    pre=NULL; //preåˆå§‹åŒ–ä¸ºNULL
+    if(T!=NULL){        //éç©ºäºŒå‰æ ‘æ‰èƒ½çº¿ç´¢åŒ–
+        InThread(T);    //ä¸­åºçº¿ç´¢åŒ–äºŒå‰æ ‘
         if(pre->rchild==NULL)
-            pre->rtag=1;    //´¦Àí±éÀúµÄ×îºóÒ»¸ö½áµã
+            pre->rtag=1;    //å¤„ç†éå†çš„æœ€åä¸€ä¸ªç»“ç‚¹
     }
 }
 
-//ÏßË÷¶ş²æÊ÷½áµã
+//çº¿ç´¢äºŒå‰æ ‘ç»“ç‚¹
 typedef struct ThreadNode{
     ElemType data;
     struct ThreadNode *lchild, *rchild;
-    int ltag, rtag; //×ó¡¢ÓÒÏßË÷±êÖ¾
+    int ltag, rtag; //å·¦ã€å³çº¿ç´¢æ ‡å¿—
 }ThreadNode, *ThreadTree;
 
-//ÖĞĞò±éÀú¶ş²æÊ÷£¬Ò»±ß±éÀú¡¢Ò»±ßÏßË÷»¯
+//ä¸­åºéå†äºŒå‰æ ‘ï¼Œä¸€è¾¹éå†ã€ä¸€è¾¹çº¿ç´¢åŒ–
 void InThread(ThreadTree T){
     if(T!=NULL{
-        InThread(T->lchild);    //ÖĞĞò±éÀú×ó×ÓÊ÷
-        visit(T);               //·ÃÎÊ¸ù½áµã
-        InThread(T->rchild);    //ÖĞĞò±éÀúÓÒ×ÓÊ÷
+        InThread(T->lchild);    //ä¸­åºéå†å·¦å­æ ‘
+        visit(T);               //è®¿é—®æ ¹ç»“ç‚¹
+        InThread(T->rchild);    //ä¸­åºéå†å³å­æ ‘
         }
 }
 
 void visit(ThreadNode *q){
-    if(q->lchild==NULL){    //×ó×ÓÊ÷Îª¿Õ£¬½¨Á¢Ç°ÇıÏßË÷
+    if(q->lchild==NULL){    //å·¦å­æ ‘ä¸ºç©ºï¼Œå»ºç«‹å‰é©±çº¿ç´¢
         q->lchild=pre;
         q->ltag=1;
     }
     if(pre!=NULL&&pre->rchild==NULL){
-        pre->rchild=q;  //½¨Á¢Ç°Çı½áµãµÄºó¼ÌÏßË÷
+        pre->rchild=q;  //å»ºç«‹å‰é©±ç»“ç‚¹çš„åç»§çº¿ç´¢
         pre->rtag=1;
         
     }
     pre=q;
 }
 
-//ÖĞĞòÏßË÷»¯(ÍõµÀÊé)
+//ä¸­åºçº¿ç´¢åŒ–çš„é€’å½’ç®—æ³•(ç‹é“ä¹¦)
 void InThread(ThreadTree p, ThreadTree &pre){
     if(p!=NULL){
-        InThread(p->lchild, pre);   //µİ¹é£¬ÏßË÷»¯×ó×ÓÊ÷
-        if(p->lchild==NULL){        //×ó×ÓÊ÷Îª¿Õ£¬½¨Á¢Ç°ÇıÏßË÷
-        p->lchild=pre;
+        InThread(p->lchild, pre);   //é€’å½’ï¼Œçº¿ç´¢åŒ–å·¦å­æ ‘
+        if(p->lchild==NULL){        //å·¦å­æ ‘ä¸ºç©ºï¼Œå»ºç«‹å‰é©±çº¿ç´¢
+        p->lchild=pre;              //lchildæŒ‡ç¤ºå·¦ç»“ç‚¹çš„å‰é©±
         p->ltag=1;
     }
     if(pre!=NULL&&pre->rchild==NULL){
-        pre->rchild=p;  //½¨Á¢Ç°Çı½áµãµÄºó¼ÌÏßË÷
+        pre->rchild=p;  //å»ºç«‹å‰é©±ç»“ç‚¹çš„åç»§çº¿ç´¢
         pre->rtag=1;
     }
     pre=p;
     InThread(p->rchild, pre);
-}//if(p!=NULL)
+    }//if(p!=NULL)
 }
 
-//ÖĞĞòÏßË÷»¯¶ş²æÊ÷T
+//ä¸­åºéå†ï¼Œå»ºç«‹ä¸­åºçº¿ç´¢åŒ–äºŒå‰æ ‘çš„ä¸»è¿‡ç¨‹(ç‹é“)
 void CreateInThread(ThreadTree T){
     ThreadTree pre=NULL;
-    if(T!=NULL){            //·Ç¿Õ¶ş²æÊ÷£¬ÏßË÷»¯
-        InThread(T, pre);   //ÏßË÷»¯¶ş²æÊ÷
-        pre->rchild=NULL;   //´¦Àí±éÀúµÄ×îºóÒ»¸ö½áµã
+    if(T!=NULL){            //éç©ºäºŒå‰æ ‘ï¼Œçº¿ç´¢åŒ–
+        InThread(T, pre);   //çº¿ç´¢åŒ–äºŒå‰æ ‘
+        pre->rchild=NULL;   //å¤„ç†éå†çš„æœ€åä¸€ä¸ªç»“ç‚¹
         pre->rtag=1;
     }
 }
 
-
-/*ÏÈĞòÏßË÷»¯*/
-//È«¾Ö±äÁ¿pre, Ö¸Ïòµ±Ç°·ÃÎÊ½áµãµÄÇ°Çı
+/*å…ˆåºçº¿ç´¢åŒ–*/
+//å…¨å±€å˜é‡pre, æŒ‡å‘å½“å‰è®¿é—®ç»“ç‚¹çš„å‰é©±
 ThreadNode *pre=NULL;
 
-//ÏÈĞòÏßË÷»¯¶ş²æÊ÷T
+//å…ˆåºçº¿ç´¢åŒ–äºŒå‰æ ‘T
 void CreatePreThread(ThreadTree T){
-    pre=NULL;       //pre³õÊ¼»¯ÎªNULL
-    if(T!=NULL){    //·Ç¿Õ¶ş²æÊ÷²ÅÄÜÏßË÷»¯
-        PreThread(T);   //ÏÈĞòÏßË÷»¯¶ş²æÊ÷
+    pre=NULL;       //preåˆå§‹åŒ–ä¸ºNULL
+    if(T!=NULL){    //éç©ºäºŒå‰æ ‘æ‰èƒ½çº¿ç´¢åŒ–
+        PreThread(T);   //å…ˆåºçº¿ç´¢åŒ–äºŒå‰æ ‘
         if(pre->rchild==NULL)
-            pre->rtag=1;    //´¦Àí±È±éÀúµÄ×îºóÒ»¸ö½áµã
+            pre->rtag=1;    //å¤„ç†æ¯”éå†çš„æœ€åä¸€ä¸ªç»“ç‚¹
     }
 }
 
-//ÏÈĞò±éÀú¶ş²æÊ÷£¬Ò»±ß±éÀúÒ»±ßÏßË÷»¯
+//å…ˆåºéå†äºŒå‰æ ‘ï¼Œä¸€è¾¹éå†ä¸€è¾¹çº¿ç´¢åŒ–
 void PreThread(ThreadTree T){
     if(T!=NULL){
-        visit(T);   //ÏÈ´¦Àí¸ù½áµã
-        if(T->ltag==0)  //lchild²»ÊÇÇ°ÇıÏßË÷
+        visit(T);   //å…ˆå¤„ç†æ ¹ç»“ç‚¹
+        if(T->ltag==0)  //lchildä¸æ˜¯å‰é©±çº¿ç´¢
             PreThread(T->lchild);
         PreThread(T->rchild);
     }
 }
 
 void vist(ThreadNode *q){
-    if(q->lchil=NULL){  //×ó×ÓÊ÷Îª¿Õ£¬½¨Á¢Ç°ÇıÏßË÷
+    if(q->lchil=NULL){  //å·¦å­æ ‘ä¸ºç©ºï¼Œå»ºç«‹å‰é©±çº¿ç´¢
         q->lchild=pre;
         q->ltag=1;
     }
     if(pre!=NULL&&pre->rchild==NULL){
-        pre->rchild=q;  //½¨Á¢Ç°Çı½áµãµÄºó¼ÌÏßË÷
+        pre->rchild=q;  //å»ºç«‹å‰é©±ç»“ç‚¹çš„åç»§çº¿ç´¢
         pre->rtag=1;
     }
     pre=q;
 }
 
-//ÏÈĞòÏßË÷»¯(ÍõµÀÊé)
+//å…ˆåºçº¿ç´¢åŒ–(ç‹é“ä¹¦)
 void PreThread(ThreadTree p, ThreadTree &pre){
     if(p!=NULL){
-        if(p->lchild==NULL){        //×ó×ÓÊ÷Îª¿Õ£¬½¨Á¢Ç°ÇıÏßË÷
+        if(p->lchild==NULL){        //å·¦å­æ ‘ä¸ºç©ºï¼Œå»ºç«‹å‰é©±çº¿ç´¢
             p->lchild=pre;
             p->ltag=1;
     }
     if(pre!=NULL&&pre->rchild==NULL){
-        pre->rchild=p;  //½¨Á¢Ç°Çı½áµãµÄºó¼ÌÏßË÷
+        pre->rchild=p;  //å»ºç«‹å‰é©±ç»“ç‚¹çš„åç»§çº¿ç´¢
         pre->rtag=1;
     }
     pre=p;
     if(p->ltag==0)
-        InThread(p->rchild, pre);   //½¨Á¢Ç°Çı½áµãµÄºó¼ÌÏßË÷
+        InThread(p->rchild, pre);   //å»ºç«‹å‰é©±ç»“ç‚¹çš„åç»§çº¿ç´¢
     InThread(p->rchild, pre);
 }//if(p!=NULL)
 }
 
-//ÏÈĞòÏßË÷»¯¶ş²æÊ÷T
+//å…ˆåºçº¿ç´¢åŒ–äºŒå‰æ ‘T
 void CreateInThread(ThreadTree T){
     ThreadTree pre=NULL;
-    if(T!=NULL){            //·Ç¿Õ¶ş²æÊ÷£¬ÏßË÷»¯
-        PreThread(T, pre);   //ÏßË÷»¯¶ş²æÊ÷
-        if(pre->rchild==NULL)   //´¦Àí±éÀúµÄ×îºóÒ»¸ö½áµã
+    if(T!=NULL){            //éç©ºäºŒå‰æ ‘ï¼Œçº¿ç´¢åŒ–
+        PreThread(T, pre);   //çº¿ç´¢åŒ–äºŒå‰æ ‘
+        if(pre->rchild==NULL)   //å¤„ç†éå†çš„æœ€åä¸€ä¸ªç»“ç‚¹
         pre->rtag=1;
     }
 }
 
 
-/*ºóĞòÏßË÷»¯*/
-//È«¾Ö±äÁ¿pre, Ö¸Ïòµ±Ç°·ÃÎÊ½áµãµÄÇ°Çı
+/*ååºçº¿ç´¢åŒ–*/
+//å…¨å±€å˜é‡pre, æŒ‡å‘å½“å‰è®¿é—®ç»“ç‚¹çš„å‰é©±
 ThreadNode *pre=NULL;
 
-//ºóĞòÏßË÷»¯¶ş²æÊ÷T
+//ååºçº¿ç´¢åŒ–äºŒå‰æ ‘T
 void CreatePostThread(ThreadTree T){
-    pre=NULL;       //pre³õÊ¼»¯ÎªNULL
-    if(T!=NULL){    //·Ç¿Õ¶ş²æÊ÷²ÅÄÜÏßË÷»¯
-        InThread(T);   //ÖĞĞòÏßË÷»¯¶ş²æÊ÷
+    pre=NULL;       //preåˆå§‹åŒ–ä¸ºNULL
+    if(T!=NULL){    //éç©ºäºŒå‰æ ‘æ‰èƒ½çº¿ç´¢åŒ–
+        InThread(T);   //ä¸­åºçº¿ç´¢åŒ–äºŒå‰æ ‘
         if(pre->rchild==NULL)
-            pre->rtag=1;    //´¦Àí±éÀúµÄ×îºóÒ»¸ö½áµã
+            pre->rtag=1;    //å¤„ç†éå†çš„æœ€åä¸€ä¸ªç»“ç‚¹
     }
 }
 
-//ºóĞò±éÀú¶ş²æÊ÷£¬Ò»±ß±éÀúÒ»±ßÏßË÷»¯
+//ååºéå†äºŒå‰æ ‘ï¼Œä¸€è¾¹éå†ä¸€è¾¹çº¿ç´¢åŒ–
 void PostThread(ThreadTree T){
     if(T!=NULL){
-        PostThread(T->lchild);  //ºóĞø±éÀú×ó×ÓÊ÷
-        PostThread(T->rchild);  //ºóĞø±éÀúÓÒ×ÓÊ÷
-        visit(T);   //·ÃÎÊ¸ù½áµã
+        PostThread(T->lchild);  //åç»­éå†å·¦å­æ ‘
+        PostThread(T->rchild);  //åç»­éå†å³å­æ ‘
+        visit(T);   //è®¿é—®æ ¹ç»“ç‚¹
     }
 }
 
 void vist(ThreadNode *q){
-    if(q->lchild==NULL){  //×ó×ÓÊ÷Îª¿Õ£¬½¨Á¢Ç°ÇıÏßË÷
+    if(q->lchild==NULL){  //å·¦å­æ ‘ä¸ºç©ºï¼Œå»ºç«‹å‰é©±çº¿ç´¢
         q->lchild=pre;
         q->ltag=1;
     }
     if(pre!=NULL&&pre->rchild==NULL){
-        pre->rchild=q;  //½¨Á¢Ç°Çı½áµãµÄºó¼ÌÏßË÷
+        pre->rchild=q;  //å»ºç«‹å‰é©±ç»“ç‚¹çš„åç»§çº¿ç´¢
         pre->rtag=1;
     }
     pre=q;
 }
 
-//ºóĞòÏßË÷»¯(ÍõµÀÊé)
+//ååºçº¿ç´¢åŒ–(ç‹é“ä¹¦)
 void PostThread(ThreadTree p, ThreadTree &pre){
     if(p!=NULL){
-        InThread(p->lchild,pre);    //µİ¹é£¬ÏßË÷»¯×ó×ÓÊ÷
+        InThread(p->lchild,pre);    //é€’å½’ï¼Œçº¿ç´¢åŒ–å·¦å­æ ‘
         InThread(p->rchild,pre);
-        if(p->lchild==NULL){        //×ó×ÓÊ÷Îª¿Õ£¬½¨Á¢Ç°ÇıÏßË÷
+        if(p->lchild==NULL){        //å·¦å­æ ‘ä¸ºç©ºï¼Œå»ºç«‹å‰é©±çº¿ç´¢
             p->lchild=pre;
             p->ltag=1;
     }
     if(pre!=NULL&&pre->rchild==NULL){
-        pre->rchild=p;  //½¨Á¢Ç°Çı½áµãµÄºó¼ÌÏßË÷
+        pre->rchild=p;  //å»ºç«‹å‰é©±ç»“ç‚¹çš„åç»§çº¿ç´¢
         pre->rtag=1;
     }
     if(p->ltag==0){
-        InThread(p->rchild, pre);   //½¨Á¢Ç°Çı½áµãµÄºó¼ÌÏßË÷
+        InThread(p->rchild, pre);   //å»ºç«‹å‰é©±ç»“ç‚¹çš„åç»§çº¿ç´¢
         InThread(p->rchild, pre);
     }
     pre=p;
 }//if(p!=NULL)
 
-//ºóĞòÏßË÷»¯¶ş²æÊ÷T
+//ååºçº¿ç´¢åŒ–äºŒå‰æ ‘T
 void CreateInThread(ThreadTree T){
     ThreadTree pre=NULL;
-    if(T!=NULL){            //·Ç¿Õ¶ş²æÊ÷£¬ÏßË÷»¯
-        PostThread(T, pre);   //ÏßË÷»¯¶ş²æÊ÷
-        if(pre->rchild==NULL)   //´¦Àí±éÀúµÄ×îºóÒ»¸ö½áµã
+    if(T!=NULL){            //éç©ºäºŒå‰æ ‘ï¼Œçº¿ç´¢åŒ–
+        PostThread(T, pre);   //çº¿ç´¢åŒ–äºŒå‰æ ‘
+        if(pre->rchild==NULL)   //å¤„ç†éå†çš„æœ€åä¸€ä¸ªç»“ç‚¹
         pre->rtag=1;
     }
 }
 
 
-/*ÖĞĞòÏßË÷»¯¶ş²æÊ÷ÕÒÖĞĞòºó¼Ì*/
-//ÕÒµ½ÒÔpÎª¸ùµÄ×ÓÊ÷ÖĞ£¬µÚÒ»¸ö±»ÖĞĞò±éÀúµÄ½Úµã
+/*ä¸­åºçº¿ç´¢åŒ–äºŒå‰æ ‘æ‰¾ä¸­åºåç»§*/
+//æ‰¾åˆ°ä»¥pä¸ºæ ¹çš„å­æ ‘ä¸­ï¼Œç¬¬ä¸€ä¸ªè¢«ä¸­åºéå†çš„èŠ‚ç‚¹
 ThreadNode *Firstnode(ThreadNode *p){
-	//Ñ­»·ÕÒµ½×î×óÏÂ½Úµã(²»Ò»¶¨ÊÇÒ¶½áµã)
+	//å¾ªç¯æ‰¾åˆ°æœ€å·¦ä¸‹èŠ‚ç‚¹(ä¸ä¸€å®šæ˜¯å¶ç»“ç‚¹)
 	while(p->ltag==0) p=p->lchild;
 	return p;
 }
 
-//ÔÚÖĞĞòÏßË÷¶ş²æÊ÷ÖĞÕÒµ½½áµãpµÄºó¼Ì½áµã
+//åœ¨ä¸­åºçº¿ç´¢äºŒå‰æ ‘ä¸­æ‰¾åˆ°ç»“ç‚¹pçš„åç»§ç»“ç‚¹
 ThreadNode *Nextnode(ThreadNode *p){
-	//ÓÒ×ÓÊ÷ÖĞ×î×óÏÂ½áµã
+	//å³å­æ ‘ä¸­æœ€å·¦ä¸‹ç»“ç‚¹
 	if(p->rtag==0) return Firstnode(p->rchild);
-	else return p->rchild; //rtag==1Ö±½Ó·µ»Øºó¼ÌÏßË÷
+	else return p->rchild; //rtag==1ç›´æ¥è¿”å›åç»§çº¿ç´¢
 }
 
-//¶ÔÖĞĞòÏßË÷¶ş²æÊ÷½øĞĞÖĞĞò±éÀú(ÀûÓÃÏßË÷ÊµÏÖµÄ·Çµİ¹éËã·¨)
+//å¯¹ä¸­åºçº¿ç´¢äºŒå‰æ ‘è¿›è¡Œä¸­åºéå†(åˆ©ç”¨çº¿ç´¢å®ç°çš„éé€’å½’ç®—æ³•)
 void Inorder(ThreadNode *T){
 	for(ThreadNode *p=Firstnode(T); p!=NULL; p=Nextnode(p))
 		visit(p);
 }
 
 
-/*ÖĞĞòÏßË÷¶ş²æÊ÷ÕÒÖĞĞòÇ°Çı*/
-//ÕÒµ½ÒÔPÎª¸ùµÄ×ÓÊ÷ÖĞ£¬×îºóÒ»¸ö±»ÖĞĞò±éÀúµÄ½áµã
+/*ä¸­åºçº¿ç´¢äºŒå‰æ ‘æ‰¾ä¸­åºå‰é©±*/
+//æ‰¾åˆ°ä»¥Pä¸ºæ ¹çš„å­æ ‘ä¸­ï¼Œæœ€åä¸€ä¸ªè¢«ä¸­åºéå†çš„ç»“ç‚¹
 ThreadNode *Lastnode(ThreadNode *p){
-    //Ñ­»·ÕÒµ½×îÓÒÏÂ½áµã(²»Ò»¶¨ÊÇÒ¶½áµã)
+    //å¾ªç¯æ‰¾åˆ°æœ€å³ä¸‹ç»“ç‚¹(ä¸ä¸€å®šæ˜¯å¶ç»“ç‚¹)
     while(p->rtag==0) p=p->rchild;
     return p; 
 } 
 
-//ÔÚÖĞĞòÏßË÷¶ş²æÊ÷ÖĞÕÒµ½½áµãpµÄÇ°Çı½áµã
+//åœ¨ä¸­åºçº¿ç´¢äºŒå‰æ ‘ä¸­æ‰¾åˆ°ç»“ç‚¹pçš„å‰é©±ç»“ç‚¹
 ThreadNode *Prenode(TheradNode *p){
-    //×ó×ÓÊ÷×îÓÒÏÂ½áµã
+    //å·¦å­æ ‘æœ€å³ä¸‹ç»“ç‚¹
     if(p->ltag==0) return Lastnode(p->lchild);
-    else return p->lchild; // ltag==1Ö±½Ó·µ»ØÇ°ÇıÏßË÷ 
+    else return p->lchild; // ltag==1ç›´æ¥è¿”å›å‰é©±çº¿ç´¢ 
 }
 
-//¶ÔÖĞĞòÏßË÷¶ş²æÊ÷½øĞĞÄæÏòÖĞĞò±éÀú
+//å¯¹ä¸­åºçº¿ç´¢äºŒå‰æ ‘è¿›è¡Œé€†å‘ä¸­åºéå†
 void RevInorder(ThreadNode *T){
     for(ThreadNode *p=Lastnode(T);p!=NULL; p=Prenode(p))
         visit(p);
 } 
 
 
-/*Ë«Ç×±íÊ¾·¨(Ë³Ğò½á¹¹)*/
-#define MAX_TREE_SIZE 100   //Ê÷ÖĞ×î¶à½áµãÊı
-typedef struct{             //Ê÷µÄ½áµã¶¨Òå 
-    ElemType data;          //Êı¾İÔªËØ
-    int parent; 
+/*åŒäº²è¡¨ç¤ºæ³•(é¡ºåºç»“æ„)*/
+#define MAX_TREE_SIZE 100   //æ ‘ä¸­æœ€å¤šç»“ç‚¹æ•°
+typedef struct{             //æ ‘çš„ç»“ç‚¹å®šä¹‰ 
+    ElemType data;          //æ•°æ®å…ƒç´ 
+    int parent;             //åŒäº²ä½ç½®åŸŸ
 }PTNode;
 
-typedef struct{                     //Ê÷µÄÀàĞÍ¶¨Òå 
-    PTNode nodes[MAX_TREE_SIZE];    //Ë«Ç×±íÊ¾
-    int n;                          //½áµãÊı 
+typedef struct{                     //æ ‘çš„ç±»å‹å®šä¹‰ 
+    PTNode nodes[MAX_TREE_SIZE];    //åŒäº²è¡¨ç¤º
+    int n;                          //ç»“ç‚¹æ•° 
 }PTree;
 
-//É¾³ı½áµã
-typedef struct{                     //Ê÷µÄÀàĞÍ¶¨Òå 
-    PTNode nodes[MAX_TREE_SIZE];    //Ë«Ç×±íÊ¾ 
-    int n;                          //½áµãÊı 
+//åˆ é™¤ç»“ç‚¹
+typedef struct{                     //æ ‘çš„ç±»å‹å®šä¹‰ 
+    PTNode nodes[MAX_TREE_SIZE];    //åŒäº²è¡¨ç¤º 
+    int n;                          //ç»“ç‚¹æ•° 
 }PTree; 
 
 
-//º¢×Ó±íÊ¾·¨(Ë³Ğò+Á´Ê½´æ´¢)
+//å­©å­è¡¨ç¤ºæ³•(é¡ºåº+é“¾å¼å­˜å‚¨)
 struct CTNode{
-    int child; //º¢×Ó½áµãÔÚÊı×éÖĞµÄÎ»ÖÃ
-    struct CTNode *next;    //ÏÂÒ»¸öº¢×Ó 
+    int child; //å­©å­ç»“ç‚¹åœ¨æ•°ç»„ä¸­çš„ä½ç½®
+    struct CTNode *next;    //ä¸‹ä¸€ä¸ªå­©å­ 
 }; 
 typedef struct {
     ElemType data;
-    struct CTNode *firstChild;  //µÚÒ»¸öº¢×Ó 
+    struct CTNode *firstChild;  //ç¬¬ä¸€ä¸ªå­©å­ 
 }CTBox;
 typedef struct{
     CTBox nodes[MAX_TREE_SIZE];
-    int n, r;   //½áµãÊıºÍ¸ùµÄÎ»ÖÃ 
+    int n, r;   //ç»“ç‚¹æ•°å’Œæ ¹çš„ä½ç½® 
 }CTree;
 
 
-//º¢×ÓĞÖµÜ±íÊ¾·¨(Á´Ê½´æ´¢)
+//å­©å­å…„å¼Ÿè¡¨ç¤ºæ³•(é“¾å¼å­˜å‚¨)
 typedef struct CSNode{
-    ElemType data;                              //Êı¾İÓò 
-    struct CSNode *firstchild, *nextsibling;    //µÚÒ»¸öº¢×Ó(¿´×ö×óÖ¸Õë)ºÍÓÒĞÖµÜÖ¸Õë(¿´×öÓÒÖ¸Õë) 
+    ElemType data;                              //æ•°æ®åŸŸ 
+    struct CSNode *firstchild, *nextsibling;    //ç¬¬ä¸€ä¸ªå­©å­(çœ‹åšå·¦æŒ‡é’ˆ)å’Œå³å…„å¼ŸæŒ‡é’ˆ(çœ‹åšå³æŒ‡é’ˆ) 
 }CSNode, *CSTree; 
 
 
-/*Ê÷ºÍÉ­ÁÖµÄ±éÀú*/
-//Ê÷µÄÏÈ¸ù±éÀú
+/*æ ‘å’Œæ£®æ—çš„éå†*/
+//æ ‘çš„å…ˆæ ¹éå†
 void PreOrder(TreeNode *R){
     if (R!=NULL){
-        visit(R);   //·ÃÎÊ¸ù½Úµã
-        while(R)    //R»¹ÓĞÏÂÒ»¸ö×ÓÊ÷T 
-            PreOrder(T);    //ÏÈ¸ù±éÀúÏÂÒ»¿Ã×ÓÊ÷ 
+        visit(R);   //è®¿é—®æ ¹èŠ‚ç‚¹
+        while(R)    //Rè¿˜æœ‰ä¸‹ä¸€ä¸ªå­æ ‘T 
+            PreOrder(T);    //å…ˆæ ¹éå†ä¸‹ä¸€æ£µå­æ ‘ 
     }
 } 
 
 
-//Ê÷µÄºó¸ù±éÀú
+//æ ‘çš„åæ ¹éå†
 void PostOrder(TreeNode *R){
     if (R!=NULL){
-        while(R)    //R»¹ÓĞÏÂÒ»¸ö×ÓÊ÷T 
-            PreOrder(T);    //ÏÈ¸ù±éÀúÏÂÒ»¿Ã×ÓÊ÷ 
-        visit(R);   //·ÃÎÊ¸ù½Úµã
+        while(R)    //Rè¿˜æœ‰ä¸‹ä¸€ä¸ªå­æ ‘T 
+            PreOrder(T);    //å…ˆæ ¹éå†ä¸‹ä¸€æ£µå­æ ‘ 
+        visit(R);   //è®¿é—®æ ¹èŠ‚ç‚¹
     }
 } 
 
 
 
-/*¶ş²æÊ÷*/
-//²éÕÒ
-//¶ş²æÅÅĞòÊ÷½áµã
+/*äºŒå‰æ ‘*/
+//æŸ¥æ‰¾
+//äºŒå‰æ’åºæ ‘ç»“ç‚¹
 typedef struct BSTNode{
     int key;
     struct BSTNode *lchild, *rchild;
 }BSTNode, *BSTree;
 
-//¶ş²æÅÅĞòÊ÷µÄ·Çµİ¹é²éÕÒËã·¨(ÍõµÀ)
+//äºŒå‰æ’åºæ ‘çš„éé€’å½’æŸ¥æ‰¾ç®—æ³•(ç‹é“)
 BSTNode *BST_Search(BiTree T, ElemType key){
-	while(T!=NULL&&key!=T->data){	//ÈôÊ÷¿Õ»òµÈÓÚ¸ù½áµãÖµ£¬Ôò½áÊøÑ­»·
-		if(key<T->data)	T=T->lchild;	//Ğ¡ÓÚ£¬ÔòÔÚ×ó×ÓÊ÷ÉÏ²éÕÒ
-		else T=T->rchild;			// ´óÓÚ£¬ÔòÔÚÓÒ×ÓÊ÷ÉÏ²éÕÒ
+	while(T!=NULL&&key!=T->data){	//è‹¥æ ‘ç©ºæˆ–ç­‰äºæ ¹ç»“ç‚¹å€¼ï¼Œåˆ™ç»“æŸå¾ªç¯
+		if(key<T->data)	T=T->lchild;	//å°äºï¼Œåˆ™åœ¨å·¦å­æ ‘ä¸ŠæŸ¥æ‰¾
+		else T=T->rchild;			// å¤§äºï¼Œåˆ™åœ¨å³å­æ ‘ä¸ŠæŸ¥æ‰¾
 	}
 	return T;
 }
 
-//ÔÚ¶ş²æÅÅĞòÊ÷ÖĞ²éÕÒÖµÎªkeyµÄ½áµã
+//åœ¨äºŒå‰æ’åºæ ‘ä¸­æŸ¥æ‰¾å€¼ä¸ºkeyçš„ç»“ç‚¹
 BSTNode *BST_Search(BSTree T, int key){
-    while(T!=NULL&&key!=T->key){        //ÈôÊ÷¿Õ»òµÈÓÚ¸ù½áµãÖµ£¬Ôò½áÊøÑ­»· 
-        if(key<T->key) T=T->lchild;     //Ğ¡ÓÚ£¬ÔòÔÚ×ó×ÓÊ÷ÉÏ²éÕÒ
-        else T=T->rchild;               //´óÓÚ£¬ÔòÔÚÓÒ×ÓÊ÷ÉÏ²éÕÒ 
+    while(T!=NULL&&key!=T->key){        //è‹¥æ ‘ç©ºæˆ–ç­‰äºæ ¹ç»“ç‚¹å€¼ï¼Œåˆ™ç»“æŸå¾ªç¯ 
+        if(key<T->key) T=T->lchild;     //å°äºï¼Œåˆ™åœ¨å·¦å­æ ‘ä¸ŠæŸ¥æ‰¾
+        else T=T->rchild;               //å¤§äºï¼Œåˆ™åœ¨å³å­æ ‘ä¸ŠæŸ¥æ‰¾ 
     }
     return T;
 } 
 
-//ÔÚ¶ş²æÅÅĞòÊ÷ÖĞ²éÕÒÖµÎªkeyµÄ½áµã(µİ¹éÊµÏÖ)
+//åœ¨äºŒå‰æ’åºæ ‘ä¸­æŸ¥æ‰¾å€¼ä¸ºkeyçš„ç»“ç‚¹(é€’å½’å®ç°)
 BSTNode *BSTSearch(BSTree T, int key){
     if (T==NULL)
-        return NULL;    //²éÕÒÊ§°Ü
+        return NULL;    //æŸ¥æ‰¾å¤±è´¥
     if (key==T->key)
-        return T;       //²éÕÒ³É¹¦
+        return T;       //æŸ¥æ‰¾æˆåŠŸ
     else if (key < T->key)
-        return BSTSearch(T->lchild, key);   //ÔÚ×ó×ÓÊ÷ÖĞÕÒ
+        return BSTSearch(T->lchild, key);   //åœ¨å·¦å­æ ‘ä¸­æ‰¾
     else
-        return BSTSearch(T->rchild, key);   //ÔÚÓÒ×ÓÊ÷ÖĞÕÒ
+        return BSTSearch(T->rchild, key);   //åœ¨å³å­æ ‘ä¸­æ‰¾
 } 
 
-//²åÈë
-//¶ş²æÅÅĞòÊ÷²åÈë²Ù×÷µÄËã·¨(ÍõµÀ)
+//æ’å…¥
+//äºŒå‰æ’åºæ ‘æ’å…¥æ“ä½œçš„ç®—æ³•(ç‹é“)
 int BST_Insert(BiTree &T, KeyType k){
-	if(T==NULL){			//Ô­Ê÷Îª¿Õ£¬ĞÂ²åÈëµÄ¼ÇÂ¼Îª¸ù½áµã
+	if(T==NULL){			//åŸæ ‘ä¸ºç©ºï¼Œæ–°æ’å…¥çš„è®°å½•ä¸ºæ ¹ç»“ç‚¹
 		T=(BiTree)malloc(sizeof(BSTNode));
 		T->key=k;
 		T->lchild=T->rchild=NULL;
-		return 1;			//·µ»Ø1£¬²åÈë³É¹¦
+		return 1;			//è¿”å›1ï¼Œæ’å…¥æˆåŠŸ
 	}
-	else if(k==T->key)		//Ê÷ÖĞ´æÔÚÏàÍ¬¹Ø¼ü×ÖµÄ½áµã£¬²åÈëÊ§°Ü
+	else if(k==T->key)		//æ ‘ä¸­å­˜åœ¨ç›¸åŒå…³é”®å­—çš„ç»“ç‚¹ï¼Œæ’å…¥å¤±è´¥
 		return 0;
-	else if(k<T->key)		//²åÈëµ½TµÄ×ó×ÓÊ÷
+	else if(k<T->key)		//æ’å…¥åˆ°Tçš„å·¦å­æ ‘
 		return BST_Insert(T->lchild,k);
-	else					//²åÈëµ½TµÄÓÒ×ÓÊ÷
+	else					//æ’å…¥åˆ°Tçš„å³å­æ ‘
 		return BST_Insert(T->rchild,k);
 }
 
 
-//ÔÚ¶ş²æÅÅĞòÊ÷²åÈë¹Ø¼ü×ÖÎªkµÄĞÂ½áµã(µİ¹éÊµÏÖ)~×î»µ¿Õ¼ä¸´ÔÓ¶ÈO(h)
+//åœ¨äºŒå‰æ’åºæ ‘æ’å…¥å…³é”®å­—ä¸ºkçš„æ–°ç»“ç‚¹(é€’å½’å®ç°)~æœ€åç©ºé—´å¤æ‚åº¦O(h)
 int BST_Insert(BSTree &T, int k){
-    if(T==NULL){        //Ô­Ê÷Îª¿Õ£¬ĞÂ²åÈëµÄ½áµãÎª¸ù½áµã
+    if(T==NULL){        //åŸæ ‘ä¸ºç©ºï¼Œæ–°æ’å…¥çš„ç»“ç‚¹ä¸ºæ ¹ç»“ç‚¹
         T=(BSTree)malloc(sizeof(BSTNode));
         T->key=k;
         T->lchild=T->rchild=NULL;
-        return 1;      //·µ»Ø1£¬²åÈë³É¹¦ 
+        return 1;      //è¿”å›1ï¼Œæ’å…¥æˆåŠŸ 
     }
-    else if(k==T->key)  //Ê÷ÖĞ´æÔÚÏàÍ¬¹Ø¼ü×ÖµÄ½áµã£¬²åÈëÊ§°Ü 
+    else if(k==T->key)  //æ ‘ä¸­å­˜åœ¨ç›¸åŒå…³é”®å­—çš„ç»“ç‚¹ï¼Œæ’å…¥å¤±è´¥ 
         return 0;
-    else if(k<T->key)   //²åÈëµ½TµÄ×ó×ÓÊ÷ 
+    else if(k<T->key)   //æ’å…¥åˆ°Tçš„å·¦å­æ ‘ 
         return BST_Insert(T->lchild, k);
-    else                //²åÈëµ½TµÄÓÒ×ÓÊ÷ 
+    else                //æ’å…¥åˆ°Tçš„å³å­æ ‘ 
         return BST_Insert(T->rchild, k); 
 } 
 
-//¹¹Ôì
-//¹¹Ôì¶ş²æÅÅĞòÊ÷µÄËã·¨ÃèÊö(ÍõµÀ)
+//æ„é€ 
+//æ„é€ äºŒå‰æ’åºæ ‘çš„ç®—æ³•æè¿°(ç‹é“)
 void Create_BST(BiTree &T, KeyType str[], int n){
-	T=NULL;			//³õÊ¼Ê±TÎª¿ÕÊ÷
+	T=NULL;			//åˆå§‹æ—¶Tä¸ºç©ºæ ‘
 	int i=0;
-	while(i<n){		//ÒÀ´Î½«Ã¿¸ö¹Ø¼ü×Ö²åÈëµ½¶ş²æÅÅĞòÊ÷ÖÖ
+	while(i<n){		//ä¾æ¬¡å°†æ¯ä¸ªå…³é”®å­—æ’å…¥åˆ°äºŒå‰æ’åºæ ‘ç§
 		BST_Insert(T, str[i]);
 		i++;
 	}
 	
 }
 
-//°´ÕÕstr[]ÖĞµÄ¹Ø¼ü×ÖĞòÁĞ½¨Á¢¶ş²æÅÅĞòÊ÷
+//æŒ‰ç…§str[]ä¸­çš„å…³é”®å­—åºåˆ—å»ºç«‹äºŒå‰æ’åºæ ‘
 void Create_BST(BSTree &T, int str[], int n){
-    T=NULL;         //³õÊ¼Ê±TÎª¿ÕÊ÷
+    T=NULL;         //åˆå§‹æ—¶Tä¸ºç©ºæ ‘
     int i=0;
-    while(i<n){     //ÒÀ´Î½«Ã¿¸ö¹Ø¼ü×Ö²åÈëµ½¶ş²æÅÅĞòÊ÷ÖÖ
+    while(i<n){     //ä¾æ¬¡å°†æ¯ä¸ªå…³é”®å­—æ’å…¥åˆ°äºŒå‰æ’åºæ ‘ç§
         BST_Insert(T, str[i]);
         i++; 
     } 
 } 
 
-//Æ½ºâ¶ş²æÊ÷½áµã
+//å¹³è¡¡äºŒå‰æ ‘ç»“ç‚¹
 typedef struct AVLNode{
-    int key;        //Êı¾İÓò
-    int balance;    //Æ½ºâÒò×Ó
+    int key;        //æ•°æ®åŸŸ
+    int balance;    //å¹³è¡¡å› å­
     struct AVLNode *lchild, *rchild; 
 }AVLNode, *AVLTree; 
 
-/*AVL²åÈëµ÷ÕûÆ½ºâ*/
+/*AVLæ’å…¥è°ƒæ•´å¹³è¡¡*/
  
 
 
