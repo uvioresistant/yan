@@ -158,7 +158,7 @@ bool EnQueue(SqQueue &Q, ElemType x){
         return false;       //队满则报错
     Q.data[Q.rear]=x;       //新元素插入队尾
     Q.rear=(Q.rear+1)%MaxSize; //队尾指针加1取模,这种方式即构成循环队列
-    return true; 
+    return true;
 } 
 
 //出队(删除一个队头元素，并用x返回)
