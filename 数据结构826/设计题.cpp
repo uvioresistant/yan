@@ -16,7 +16,109 @@ typedef struct{
 }ALGraph;
 
 /* 2020.8.2. 删除图中所有到顶点j(数组下标)的边的算法 */
+map<string, int> mmp;           //映射字符串和坐标之间的关系
 
+/* 邻接表的定义 */
+#define MaxVertexNum=100
+typedef struct ArcNode{
+    int adjvex;
+    struct ArcNode *next;
+}ArcNode;
+
+typedef struct VNode{
+    VertexType data;
+    ArcNode *first;
+}VNode, AdjList[MaxVertexNum];
+
+typedef struct{
+    AdjList vertices;
+    int arcnum, vexnum;
+}ALGraph;
+
+class Graph{
+    private:
+        int pointnum, eagenum;
+        VertexNode point[maxn]; //顶点数组
+        ArcNode* last[maxn];    //指向尾节点
+        int vis[maxn];          //标记数组
+        int dis[maxn];          //距离数组
+        void insertElement(int pos, ArcNode *p);
+        void sortList(VertexNode nil);
+    public:
+        Graph();                //构造函数
+        void create(int pointnum, int eagenum);
+        void dfs(string begin, int flag);   //深度优先搜索
+        void bfs(string begin);             //广度优先搜索
+        void dfs_all(string begin);
+        void bfs_all(string begin);
+}
+
+void Graph::delete_point(string str){
+    if(pointnum==0)
+    {
+        print("dont't find the graph\n");
+        return;
+    }
+    if(is_exit(str))
+    {
+        int position = -1;                  //删除顶点在顶点数组中的位置
+        ArcNode *P, *q, *r;
+        p=point[mmp[str]].firstarc;
+        for(int i=mm[str]+1; i<pointnum; i++)   //遍历顶点数组，并删除顶点数组中的被删顶点
+        {
+            point[i-1].name=point[i].name;
+            point[i-1].firstarc = point[i].firstarc;
+            mmp[point[i-1].name]=i-1;
+        }
+        pointnum--;
+        
+        while(p)                            //删除被删顶点连接的边信息
+        {
+            q=p->next;
+            delete p;
+            p = q;
+        }
+        
+        for(int i=0; i<pointnum; i++)   //删除其他顶点中，与之相关的边
+        {
+            p=point[i].firstarc;
+            while(p)
+            {
+                if(str.compare(p->name)==0)
+                {
+                    if(p==point[i].firstarc)
+                    {
+                        point[i].firstarc=p->next;
+                    }
+                    else{
+                        r->next=p-next;
+                    }
+                    q=p;
+                    p=p->next;
+                    delete q;
+                }
+                else
+                {
+                    r=p;
+                    p=p->next;
+                }
+            }
+        }
+        cout<<str<<"have deleted"<<endl;
+        //删除完点和边以后，对图做dfs和bfs操作
+        //初始化vis
+        cout<<"dfs:"<<endl;
+        initvis();
+        for(int i=0; i<pointnum; i++)
+        {
+            if(!vis[i])
+                dfs(point[i].name, 1);
+        }
+    }
+    else
+        printf("the point does not exit\n");
+    
+}
 
 /* 2020.10.双链表da，在链表da的第i个之后，插入元素值为x的结点，
 可直接利用函数depth(da,x)来查找插入位置,写出双链表da的存储结构 */
@@ -193,7 +295,7 @@ typedef struct{
 
 
 /* 2014.16. 一个邻接表表示的有向图，编写程序判断从顶点i至顶点j是否有简单路径，
-有则打印出该路径上的顶点路径，先描述图的存储结构，查找邻接点灯关于图的操作要自己处理*/
+有则打印出该路径上的顶点路径，先描述图的存储结构，查找邻接点等关于图的操作要自己处理*/
 
 
 /* 2013.17. 单向链表的类型定义如下： 
