@@ -139,10 +139,22 @@ typedef struct DNode{               //定义双链表结点类型
 }DNode, *DLinkList;
 
 /* 2.5.2.双链表的插入 */
+s->next=p->next;                    //将结点*s插入到结点*p之后
+p->next->prior=s;
+s->prior=p;
+p->next=s;
 
+/* 2.5.2.双链表的删除 */
+p->next=q->next;
+q->next->prior=p;
+free(q);
 
-
-
+/* 2.6.1.静态链表的类型描述 */
+#define MaxSize 50                  //静态链表的最大长度
+typedef struct{                     //静态链表结构类型的定义
+    ElemType data;                  //存储数据元素
+    int next;                       //下一个元素的数组下标
+}SLinkList[MaxSize];
 
 
 
