@@ -1,0 +1,27 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: 星期几 - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Users\Mr_Lu\AppData\Local\Temp\RSP1364.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/星期几.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ  /c 
+"E:\王道机试\2.经典入门\星期几\Week.cpp"
+]
+Creating command line "cl.exe @C:\Users\Mr_Lu\AppData\Local\Temp\RSP1364.tmp" 
+<h3>Output Window</h3>
+Compiling...
+Week.cpp
+E:\王道机试\2.经典入门\星期几\Week.cpp(61) : error C2106: '=' : left operand must be l-value
+Error executing cl.exe.
+
+
+
+<h3>Results</h3>
+Week.obj - 1 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

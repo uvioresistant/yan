@@ -1,0 +1,32 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: 贪心FatMouse - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Users\Mr_Lu\AppData\Local\Temp\RSP5619.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/贪心FatMouse.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ  /c 
+"E:\王道机试\2.经典入门\贪心FatMouse\trade.cpp"
+]
+Creating command line "cl.exe @C:\Users\Mr_Lu\AppData\Local\Temp\RSP5619.tmp" 
+<h3>Output Window</h3>
+Compiling...
+trade.cpp
+d:\vc6.0\microsoft visual studio\vc98\include\algorithm(583) : error C2784: 'bool __cdecl std::operator <(const class std::reverse_iterator<_RI,_Ty,_Rt,_Pt,_D> &,const class std::reverse_iterator<_RI,_Ty,_Rt,_Pt,_D> &)' : could not deduce template argument for 'const class std::reverse_iterator<_RI,_Ty,_Rt,_Pt,_D> &' from 'struct goods'
+        d:\vc6.0\microsoft visual studio\vc98\include\algorithm(548) : see reference to function template instantiation 'void __cdecl std::_Unguarded_insert(struct goods *,struct goods)' being compiled
+d:\vc6.0\microsoft visual studio\vc98\include\algorithm(583) : error C2784: 'bool __cdecl std::operator <(const struct std::pair<_T1,_T2> &,const struct std::pair<_T1,_T2> &)' : could not deduce template argument for 'const struct std::pair<_T1,_T2> &' from 'struct goods'
+        d:\vc6.0\microsoft visual studio\vc98\include\algorithm(548) : see reference to function template instantiation 'void __cdecl std::_Unguarded_insert(struct goods *,struct goods)' being compiled
+d:\vc6.0\microsoft visual studio\vc98\include\algorithm(583) : error C2676: binary '<' : 'struct goods' does not define this operator or a conversion to a type acceptable to the predefined operator
+        d:\vc6.0\microsoft visual studio\vc98\include\algorithm(548) : see reference to function template instantiation 'void __cdecl std::_Unguarded_insert(struct goods *,struct goods)' being compiled
+Error executing cl.exe.
+
+
+
+<h3>Results</h3>
+trade.obj - 3 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

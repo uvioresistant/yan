@@ -1,0 +1,25 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: 日期差值 - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Users\Mr_Lu\AppData\Local\Temp\RSP6FD9.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/日期差值.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ  /c 
+"E:\王道机试\2.经典入门\日期差值\DateDifference.cpp"
+]
+Creating command line "cl.exe @C:\Users\Mr_Lu\AppData\Local\Temp\RSP6FD9.tmp" 
+<h3>Output Window</h3>
+Compiling...
+DateDifference.cpp
+
+
+
+<h3>Results</h3>
+DateDifference.obj - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
